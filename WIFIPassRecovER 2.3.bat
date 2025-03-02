@@ -29,20 +29,6 @@ if _%1_==_Main_  goto :Main
 Set Count=0
 Set L=0
 
-Mode con cols=75 lines=8
-cls & color 0A
-	echo __          _______ ______ _____  _____              _____                     ______ _____  
-	echo \ \        / /_   _^|  ____^|_   _^|^|  __ \            ^|  __ \                   ^|  ____^|  __ \ 
-	echo  \ \  /\  / /  ^| ^| ^| ^|__    ^| ^|  ^| ^|__) ^|_ _ ___ ___^| ^|__) ^|___  ___ _____   _^| ^|__  ^| ^|__) ^|
-	echo   \ \/  \/ /   ^| ^| ^|  __^|   ^| ^|  ^|  ___/ _` / __/ __^|  _  // _ \/ __/ _ \ \ / /  __^| ^|  _  / 
-	echo    \  /\  /   _^| ^|_^| ^|     _^| ^|_ ^| ^|  ^| (_^| \__ \__ \ ^| \ \  __/ (_^| (_) \ V /^| ^|____^| ^| \ \ 
-	echo     \/  \/   ^|_____^|_^|    ^|_____^|^|_^|   \__,_^|___/___/_^|  \_\___^|\___\___/ \_/ ^|______^|_^|  \_\
-	echo.
-	echo(
-if _%1_==_Main_  goto :Main
-Set Count=0
-Set L=0
-
 REM ===================== Get Admin
 :getAdmin
     echo               %~nx0 : self elevating
@@ -126,4 +112,15 @@ if %3 == 0 (
 ) else if %3 == 1 (
     echo %bs%>%2 & findstr /v /a:%1 /r "^$" %2 nul & del %2 2>&1 & goto :eof
 )
+exit /b
+
+REM ===================== Line Count
+:LineCount
+for /f "skip=2 delims=: tokens=2" %%a in ('netsh wlan show profiles') do (
+    if not "%%a"=="" (
+		set /a L+=1
+	)
+)
+set /a L=!L! + 10
+Set Mod=Mode con cols=75 Lines=!L!
 exit /b
