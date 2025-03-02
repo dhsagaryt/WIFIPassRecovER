@@ -89,3 +89,24 @@ echo Done
 If exist "%PasswordLog%" start "" "%PasswordLog%"
 pause>nul
 exit
+
+REM ===================== Get Password Function
+:Getpassword
+set "name=%1"
+set "name=!name:"=!"
+Set "passwd="
+for /f "delims=: tokens=2" %%a in ('netsh wlan show profiles %1 key^=clear ^|find /I "Cont"') do (
+	set "passwd=%%a"
+	Set /a Count+=1
+)
+
+If defined passwd (
+	set passwd=!passwd:~1!
+	echo                  [!Count!][!name!] ====^> "!passwd!"
+	echo                  [!Count!][!name!] ====^> "!passwd!" >> "%PasswordLog%"
+) else (
+	Set /a Count+=1
+call :colorCMD 0C "                 [!Count!][!name!] The Password is empty" 1
+	echo                  [!Count!][!name!] The Password is empty >> "%PasswordLog%"
+)
+exit /b
