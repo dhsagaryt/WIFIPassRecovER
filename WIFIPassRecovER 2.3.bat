@@ -54,3 +54,38 @@ REM ===================== Get Admin
     "%temp%\getAdmin.vbs"
     del "%temp%\getAdmin.vbs"
 goto :eof
+
+REM ===================== Main Program
+:Main
+Call :init
+Call :LineCount
+Set "PasswordLog=%~dp0Wifi_Passwords_on_%ComputerName%.txt"
+%Mod%
+	echo(
+	echo             ***********************************************
+	echo                   %proName% %proVer% by %autName%
+	echo             ***********************************************
+	echo(
+Call :colorCMD 0E "                 [N][SSID] ================ Password" 1
+echo(
+(
+	echo             ***********************************************
+	echo                   %proName% %proVer% by %autName%
+	echo             ***********************************************
+	echo(
+	echo                  [N][SSID] ==============^> "Password"
+	echo(
+	
+)>"%PasswordLog%"
+for /f "skip=2 delims=: tokens=2" %%a in ('netsh wlan show profiles') do (
+    if not "%%a"=="" (
+        set "ssid=%%a"
+        set "ssid=!ssid:~1!"
+		call :Getpassword "!ssid!"
+    )
+)
+echo(
+echo Done
+If exist "%PasswordLog%" start "" "%PasswordLog%"
+pause>nul
+exit
