@@ -31,7 +31,7 @@ Set L=0
 
 REM ===================== Get Admin
 :getAdmin
-    echo               %~nx0 : self elevating
+    echo               %~nx0 : Self Elevating..
     set vbs=%temp%\getAdmin.vbs
 (
 	echo Set UAC = CreateObject^("Shell.Application"^)
@@ -45,7 +45,7 @@ REM ===================== Main Program
 :Main
 Call :init
 Call :LineCount
-Set "PasswordLog=%~dp0WIFIPassRecovER_%ComputerName%.txt"
+Set "PasswordLog=%~dp0WIFIPassRecovER_%ComputerName%_%date%.txt"
 %Mod%
 	echo(
 	echo             ***********************************************
@@ -72,8 +72,8 @@ for /f "skip=2 delims=: tokens=2" %%a in ('netsh wlan show profiles') do (
 )
 echo(
 echo Done
-If exist "%PasswordLog%" start "" "%PasswordLog%"
 pause>nul
+If exist "%PasswordLog%" start "" "%PasswordLog%"
 exit
 
 REM ===================== Get Password Function
