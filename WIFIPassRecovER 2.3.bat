@@ -116,3 +116,14 @@ REM ===================== init
 prompt $g
 for /F "delims=." %%a in ('"prompt $H. & for %%b in (1) do rem"') do set "BS=%%a"
 exit /b
+
+REM ===================== colorCMD
+:colorCMD
+set nL=%3
+if not defined nL echo requires third argument & pause > nul & goto :eof
+if %3 == 0 (
+    <nul set /p ".=%bs%">%2 & findstr /v /a:%1 /r "^$" %2 nul & del %2 2>&1 & goto :eof
+) else if %3 == 1 (
+    echo %bs%>%2 & findstr /v /a:%1 /r "^$" %2 nul & del %2 2>&1 & goto :eof
+)
+exit /b
