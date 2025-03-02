@@ -110,3 +110,9 @@ call :colorCMD 0C "                 [!Count!][!name!] The Password is empty" 1
 	echo                  [!Count!][!name!] The Password is empty >> "%PasswordLog%"
 )
 exit /b
+
+REM ===================== init
+:init
+prompt $g
+for /F "delims=." %%a in ('"prompt $H. & for %%b in (1) do rem"') do set "BS=%%a"
+exit /b
