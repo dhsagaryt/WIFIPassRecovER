@@ -45,7 +45,7 @@ REM ===================== Main Program
 :Main
 Call :init
 Call :LineCount
-Set "PasswordLog=%~dp0WIFIPassRecovER_%ComputerName%_%date%.txt"
+Set "PasswordLog=%~dp0WIFIPassRecovER_%COMPUTERNAME%_%date%.txt"
 %Mod%
 	echo(
 	echo             ***********************************************
